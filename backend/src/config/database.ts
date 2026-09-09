@@ -11,6 +11,16 @@ const ensureAdminAccount = async (email: string, password: string, name: string,
     return;
   }
 
+  const passwordMatches = await existingAdmin.comparePassword(password);
+  if (!passwordMatches || existingAdmin.role !== role || existingAdmin.name !== name) {
+    existingAdmin.password = password;
+    existingAdmin.role = role;
+    existingAdmin.name = name;
+    await existingAdmin.save();
+    console.log(`✅ ${role === 'super-admin' ? 'Super Admin' : 'Admin'} updated: ${email}`);
+    return;
+  }
+
   console.log(`ℹ️  Existing ${role === 'super-admin' ? 'super admin' : 'admin'} found: ${email}`);
 };
 
