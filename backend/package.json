@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --exec tsx src/index.ts",
-    "build": "tsc",
+    "build": "npm install --include=dev && tsc",
     "start": "node dist/index.js",
     "lint": "eslint src --ext .ts"
   },
