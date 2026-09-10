@@ -10,7 +10,7 @@ const initialMessage = {
 };
 
 const messageLinkPattern =
-  /\[([^\]]+)\]\((\/[^)]+)\)|hello@meeraxu\.ai|admin@meeraxuintelligence\.com|\+91 75681 85591/g;
+  /\[([^\]]+)\]\(([^)]+)\)|hello@meeraxu\.ai|admin@meeraxuintelligence\.com|\+91 75681 85591/g;
 
 const markdownBoldPattern = /\*\*([^*]+)\*\*/g;
 
@@ -37,7 +37,7 @@ function renderMessageContent(content, onNavigate, navigate) {
         href={href}
         className="chatbot-link"
         onClick={(event) => {
-          if (markdownPath) {
+          if (markdownPath?.startsWith("/")) {
             event.preventDefault();
             navigate(markdownPath);
           }

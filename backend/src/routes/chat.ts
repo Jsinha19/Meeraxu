@@ -19,6 +19,30 @@ markdown link from this list: [Home](/), [About](/about), [Contact](/contact),
 [Privacy Policy](/privacy-policy), or [Terms and Conditions](/terms-and-conditions).
 If you do not know an answer, say that Meeraxu has not provided that information.`;
 
+const CONTACT_RESPONSES = {
+  email: 'General inquiries: [hello@meeraxu.ai](mailto:hello@meeraxu.ai)',
+  adminEmail: 'Direct email: [admin@meeraxuintelligence.com](mailto:admin@meeraxuintelligence.com)',
+  phone: 'Phone: [+91 75681 85591](tel:+917568185591)',
+  location: 'Base location: San Francisco, CA.',
+  all: 'Email: [hello@meeraxu.ai](mailto:hello@meeraxu.ai)\nPhone: [+91 75681 85591](tel:+917568185591)',
+};
+
+const getDirectContactReply = (message: string) => {
+  const normalized = message.toLowerCase();
+  const asksForAdminEmail = normalized.includes('admin') && normalized.includes('email');
+  const asksForEmail = /email|mail|e-mail/.test(normalized);
+  const asksForPhone = /phone|mobile|number|call|contact no/.test(normalized);
+  const asksForLocation = /location|address|where are you|based/.test(normalized);
+  const asksForAllContact = /contact details|contact info|contact information|reach you|how can i contact|kaise contact|contact kaise/.test(normalized);
+
+  if (asksForAdminEmail) return CONTACT_RESPONSES.adminEmail;
+  if (asksForEmail) return CONTACT_RESPONSES.email;
+  if (asksForPhone) return CONTACT_RESPONSES.phone;
+  if (asksForLocation) return CONTACT_RESPONSES.location;
+  if (asksForAllContact) return CONTACT_RESPONSES.all;
+  return null;
+};
+
 router.post('/', async (req: Request, res: Response) => {
   const message = typeof req.body?.message === 'string' ? req.body.message.trim() : '';
 
@@ -28,6 +52,11 @@ router.post('/', async (req: Request, res: Response) => {
 
   if (message.length > 4000) {
     return res.status(400).json({ message: 'Message must be 4000 characters or less' });
+  }
+
+  const directContactReply = getDirectContactReply(message);
+  if (directContactReply) {
+    return res.json({ reply: directContactReply });
   }
 
   const apiKey = process.env.GEMINI_API_KEY?.trim();
