@@ -18,16 +18,26 @@ const pageLinks = {
 };
 
 const messageLinkPattern =
-  /\[([^\]]+)\]\((\/[^)]+)\)|hello@meeraxu\.ai|admin@meeraxuintelligence\.com|\+91 75681 85591|Privacy Policy|Terms and Conditions|Home|About|Contact/gi;
+  /\[([^\]]+)\]\((\/[^)]+)\)|\*\*([^*]+)\*\*|hello@meeraxu\.ai|admin@meeraxuintelligence\.com|\+91 75681 85591|Privacy Policy|Terms and Conditions|Home|About|Contact/gi;
 
 function renderMessageContent(content, onNavigate) {
   const parts = [];
   let lastIndex = 0;
 
   for (const match of content.matchAll(messageLinkPattern)) {
-    const [fullMatch, markdownLabel, markdownPath] = match;
+    const [fullMatch, markdownLabel, markdownPath, boldLabel] = match;
     const start = match.index;
     if (start > lastIndex) parts.push(content.slice(lastIndex, start));
+
+    if (boldLabel) {
+      parts.push(
+        <strong key={`${start}-${fullMatch}`} className="chatbot-bold">
+          {boldLabel}
+        </strong>,
+      );
+      lastIndex = start + fullMatch.length;
+      continue;
+    }
 
     const label = markdownLabel || fullMatch;
     const href =
