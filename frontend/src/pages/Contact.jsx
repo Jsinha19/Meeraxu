@@ -249,7 +249,7 @@ function ContactSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.62 }}
-            className="relative rounded-[28px] overflow-hidden min-h-[640px] h-full"
+            className="relative rounded-[28px] overflow-hidden min-h-[420px] lg:min-h-0 h-full"
           >
             <img
               src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=700&h=700&q=90"
@@ -270,10 +270,10 @@ function ContactSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative z-[2] flex flex-col p-6 justify-between gap-[20px] h-full"
+              className="relative z-[2] flex flex-col p-6 justify-start gap-[28px] h-full"
             >
               <div>
-                <div className="inline-flex items-center gap-[8px] mb-[24px] px-[12px] py-[6px] rounded-[20px] bg-[rgba(139,92,246,0.2)] border border-[rgba(139,92,246,0.4)] w-fit">
+                <div className="inline-flex items-center gap-[8px] mb-[14px] px-[12px] py-[6px] rounded-[20px] bg-[rgba(139,92,246,0.2)] border border-[rgba(139,92,246,0.4)] w-fit">
                   <span
                     style={{
                       fontFamily: "var(--font-mono)",
@@ -284,12 +284,12 @@ function ContactSection() {
                     Reach Out
                   </span>
                 </div>
-                <h3 className="text-[2.1rem] font-extrabold leading-[1.1] mt-[12px] max-w-[260px]">
+                <h3 className="text-[2.1rem] font-extrabold leading-[1.1] mt-0 max-w-[260px]">
                   Need More Information?
                 </h3>
               </div>
 
-              <div className="grid gap-[16px]">
+              <div className="grid gap-[12px]">
                 {CONTACT_DETAILS.map((item) => {
                   const Icon = item.icon;
                   return (
