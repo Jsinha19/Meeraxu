@@ -9,6 +9,52 @@ const initialMessage = {
     "Hi, I’m the Meeraxu Intelligence assistant. Ask me about our services, projects, or how we can help.",
 };
 
+const pageLinks = {
+  Home: "/",
+  About: "/about",
+  Contact: "/contact",
+  "Privacy Policy": "/privacy-policy",
+  "Terms and Conditions": "/terms-and-conditions",
+};
+
+const messageLinkPattern =
+  /\[([^\]]+)\]\((\/[^)]+)\)|hello@meeraxu\.ai|admin@meeraxuintelligence\.com|\+91 75681 85591|Privacy Policy|Terms and Conditions|Home|About|Contact/gi;
+
+function renderMessageContent(content, onNavigate) {
+  const parts = [];
+  let lastIndex = 0;
+
+  for (const match of content.matchAll(messageLinkPattern)) {
+    const [fullMatch, markdownLabel, markdownPath] = match;
+    const start = match.index;
+    if (start > lastIndex) parts.push(content.slice(lastIndex, start));
+
+    const label = markdownLabel || fullMatch;
+    const href =
+      markdownPath ||
+      (fullMatch.includes("@")
+        ? `mailto:${fullMatch}`
+        : fullMatch.startsWith("+")
+          ? `tel:${fullMatch.replace(/\s/g, "")}`
+          : pageLinks[fullMatch]);
+
+    parts.push(
+      <a
+        key={`${start}-${fullMatch}`}
+        href={href}
+        className="chatbot-link"
+        onClick={onNavigate}
+      >
+        {label}
+      </a>,
+    );
+    lastIndex = start + fullMatch.length;
+  }
+
+  if (lastIndex < content.length) parts.push(content.slice(lastIndex));
+  return parts;
+}
+
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -92,7 +138,7 @@ export function Chatbot() {
                   </span>
                 )}
                 <p className={item.isError ? "chatbot-error" : ""}>
-                  {item.content}
+                  {renderMessageContent(item.content, () => setIsOpen(false))}
                 </p>
               </div>
             ))}

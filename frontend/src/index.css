@@ -226,6 +226,8 @@ img {
 .chatbot-message-row.user p { border: 0; border-radius: 14px 14px 4px 14px; color: #fff; background: linear-gradient(135deg, #7c3aed, #5b21b6); }
 .chatbot-message-row p.chatbot-error { color: #ffb4b4; border-color: rgba(248, 113, 113, 0.25); }
 .chatbot-avatar { flex: 0 0 25px; width: 25px; height: 25px; border-radius: 8px; }
+.chatbot-link { color: #c4b5fd; font-weight: 600; text-decoration: underline; text-decoration-color: rgba(196, 181, 253, 0.55); text-underline-offset: 3px; }
+.chatbot-link:hover { color: #fff; text-decoration-color: #fff; }
 
 .chatbot-typing { display: flex; gap: 4px; padding: 13px; border-radius: 14px 14px 14px 4px; background: rgba(255, 255, 255, 0.065); }
 .chatbot-typing span { width: 5px; height: 5px; border-radius: 50%; background: #c4b5fd; animation: chatbot-bounce 900ms infinite ease-in-out; }
