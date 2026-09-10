@@ -1,59 +1,48 @@
 import { useEffect, useRef, useState } from "react";
 import { Bot, Send, Sparkles, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { chatAPI } from "../api/client";
 
 const initialMessage = {
   id: "welcome",
   role: "bot",
-  content:
-    "Hi, I’m the Meeraxu Intelligence assistant. Ask me about our services, projects, or how we can help.",
-};
-
-const pageLinks = {
-  Home: "/",
-  About: "/about",
-  Contact: "/contact",
-  "Privacy Policy": "/privacy-policy",
-  "Terms and Conditions": "/terms-and-conditions",
+  content: "Hi, how can I help you?",
 };
 
 const messageLinkPattern =
-  /\[([^\]]+)\]\((\/[^)]+)\)|\*\*([^*]+)\*\*|hello@meeraxu\.ai|admin@meeraxuintelligence\.com|\+91 75681 85591|Privacy Policy|Terms and Conditions|Home|About|Contact/gi;
+  /\[([^\]]+)\]\((\/[^)]+)\)|hello@meeraxu\.ai|admin@meeraxuintelligence\.com|\+91 75681 85591/g;
 
-function renderMessageContent(content, onNavigate) {
+const markdownBoldPattern = /\*\*([^*]+)\*\*/g;
+
+function renderMessageContent(content, onNavigate, navigate) {
+  const normalizedContent = content.replace(markdownBoldPattern, "$1");
   const parts = [];
   let lastIndex = 0;
 
-  for (const match of content.matchAll(messageLinkPattern)) {
-    const [fullMatch, markdownLabel, markdownPath, boldLabel] = match;
+  for (const match of normalizedContent.matchAll(messageLinkPattern)) {
+    const [fullMatch, markdownLabel, markdownPath] = match;
     const start = match.index;
     if (start > lastIndex) parts.push(content.slice(lastIndex, start));
-
-    if (boldLabel) {
-      parts.push(
-        <strong key={`${start}-${fullMatch}`} className="chatbot-bold">
-          {boldLabel}
-        </strong>,
-      );
-      lastIndex = start + fullMatch.length;
-      continue;
-    }
 
     const label = markdownLabel || fullMatch;
     const href =
       markdownPath ||
       (fullMatch.includes("@")
         ? `mailto:${fullMatch}`
-        : fullMatch.startsWith("+")
-          ? `tel:${fullMatch.replace(/\s/g, "")}`
-          : pageLinks[fullMatch]);
+        : `tel:${fullMatch.replace(/\s/g, "")}`);
 
     parts.push(
       <a
         key={`${start}-${fullMatch}`}
         href={href}
         className="chatbot-link"
-        onClick={onNavigate}
+        onClick={(event) => {
+          if (markdownPath) {
+            event.preventDefault();
+            navigate(markdownPath);
+          }
+          onNavigate();
+        }}
       >
         {label}
       </a>,
@@ -61,11 +50,14 @@ function renderMessageContent(content, onNavigate) {
     lastIndex = start + fullMatch.length;
   }
 
-  if (lastIndex < content.length) parts.push(content.slice(lastIndex));
+  if (lastIndex < normalizedContent.length) {
+    parts.push(normalizedContent.slice(lastIndex));
+  }
   return parts;
 }
 
 export function Chatbot() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([initialMessage]);
@@ -148,7 +140,11 @@ export function Chatbot() {
                   </span>
                 )}
                 <p className={item.isError ? "chatbot-error" : ""}>
-                  {renderMessageContent(item.content, () => setIsOpen(false))}
+                  {renderMessageContent(
+                    item.content,
+                    () => setIsOpen(false),
+                    navigate,
+                  )}
                 </p>
               </div>
             ))}
