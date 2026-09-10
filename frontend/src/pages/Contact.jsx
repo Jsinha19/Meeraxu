@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   ChevronDown,
   Mail,
-  MapPin,
   Phone,
   Send,
   ShieldCheck,
@@ -15,21 +14,15 @@ import { contactFormsAPI } from "../api/client";
 const CONTACT_DETAILS = [
   {
     icon: Mail,
-    title: "General Inquiries",
-    info: "hello@meeraxu.ai",
-    text: "Best for partnership, onboarding, and project discussions.",
+    title: "Direct Email",
+    info: "admin@meeraxuintelligence.com",
+    text: "For project discussions, partnerships, and general inquiries.",
   },
   {
     icon: Phone,
     title: "Phone Line",
-    info: "+1 (800) 000-0000",
-    text: "Monday to Friday, 9:00 AM to 6:00 PM EST.",
-  },
-  {
-    icon: MapPin,
-    title: "Base Location",
-    info: "San Francisco, CA",
-    text: "Remote-first with global delivery support.",
+    info: "+91 75681 85591",
+    text: "Reach out to discuss your next project with our team.",
   },
 ];
 
@@ -249,14 +242,14 @@ function ContactSection() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(280px,0.9fr)_minmax(0,1.1fr)] gap-[20px] items-stretch min-h-[10px]">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(280px,0.9fr)_minmax(0,1.1fr)] gap-[20px] items-stretch">
           {/* Left Side - Image with Overlay Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.62 }}
-            className="relative rounded-[28px] overflow-hidden min-h-0 max-h-[calc(100%-40px)] my-[20px]"
+            className="relative rounded-[28px] overflow-hidden min-h-[640px] h-full"
           >
             <img
               src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=700&h=700&q=90"
@@ -338,7 +331,7 @@ function ContactSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.62, delay: 0.08 }}
-            className="flex flex-col gap-[16px] self-start border-none rounded-[28px] p-6"
+            className="flex flex-col gap-[16px] h-full border-none rounded-[28px] p-6"
           >
             <motion.div
               initial={{ opacity: 0, y: -12 }}
