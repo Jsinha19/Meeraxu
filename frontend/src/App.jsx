@@ -14,6 +14,7 @@ import { Contact } from "./pages/Contact";
 import { ProjectDetail } from "./pages/ProjectDetail";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 import { TermsAndConditions } from "./pages/TermsAndConditions";
+import { Chatbot } from "./components/Chatbot";
 import AdminLayout from "./admin/layouts/AdminLayout";
 import AdminLogin from "./admin/pages/Login";
 import AdminDashboard from "./admin/pages/Dashboard";
@@ -26,6 +27,7 @@ function PublicLayout({ children }) {
     <>
       <Navbar />
       <main className="min-w-0 w-full overflow-x-clip pt-0">{children}</main>
+      <Chatbot />
     </>
   );
 }

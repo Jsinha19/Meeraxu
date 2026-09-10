@@ -9,6 +9,7 @@
 // import projectRoutes from './routes/projects.js';
 // import contactFormRoutes from './routes/contactForms.js';
 // import authRoutes from './routes/auth.js';
+// import chatRoutes from './routes/chat.js';
 
 // const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -35,6 +36,7 @@
 // app.use('/api/services', serviceRoutes);
 // app.use('/api/projects', projectRoutes);
 // app.use('/api/contact-forms', contactFormRoutes);
+// app.use('/api/chat', chatRoutes);
 
 // // Health check
 // app.get('/api/health', (req, res) => {
@@ -64,6 +66,7 @@ import serviceRoutes from './routes/services.js';
 import projectRoutes from './routes/projects.js';
 import contactFormRoutes from './routes/contactForms.js';
 import authRoutes from './routes/auth.js';
+import chatRoutes from './routes/chat.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -150,6 +153,8 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/projects', projectRoutes);
 
 app.use('/api/contact-forms', contactFormRoutes);
+
+app.use('/api/chat', chatRoutes);
 
 // ===============================
 // HEALTH CHECK
