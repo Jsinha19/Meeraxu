@@ -70,6 +70,7 @@ router.post(
     try {
       const { name, description, shortCode, iconUrl } = req.body;
       const icon = buildIconPath(req.file, iconUrl);
+      const normalizedShortCode = typeof shortCode === 'string' ? shortCode.trim() : '';
 
       if (!name || !description) {
         return res.status(400).json({ message: 'Name and description are required' });
@@ -78,7 +79,7 @@ router.post(
       const service = new Service({
         name: name.trim(),
         description: description.trim(),
-        shortCode: shortCode ? shortCode.trim() : '',
+        ...(normalizedShortCode ? { shortCode: normalizedShortCode } : {}),
         icon,
       });
 
@@ -105,10 +106,11 @@ router.put(
 
       const { name, description, shortCode, iconUrl } = req.body;
       const icon = buildIconPath(req.file, iconUrl);
+      const normalizedShortCode = typeof shortCode === 'string' ? shortCode.trim() : undefined;
 
       if (name) service.name = name.trim();
       if (description) service.description = description.trim();
-      if (shortCode !== undefined) service.shortCode = shortCode.trim();
+      if (shortCode !== undefined) service.shortCode = normalizedShortCode || undefined;
       if (icon) service.icon = icon;
 
       await service.save();

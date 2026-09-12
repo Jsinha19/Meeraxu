@@ -24,6 +24,25 @@ const ensureAdminAccount = async (email: string, password: string, name: string,
   console.log(`ℹ️  Existing ${role === 'super-admin' ? 'super admin' : 'admin'} found: ${email}`);
 };
 
+const removeLegacyServiceShortCodeIndex = async () => {
+  try {
+    const collections = mongoose.connection.db ? await mongoose.connection.db.listCollections().toArray() : [];
+    const hasServicesCollection = collections.some((collection) => collection.name === 'services');
+
+    if (!hasServicesCollection || !mongoose.connection.db) {
+      return;
+    }
+
+    const indexes = await mongoose.connection.db.collection('services').indexInformation();
+    if (indexes.shortCode_1) {
+      await mongoose.connection.db.collection('services').dropIndex('shortCode_1');
+      console.log('✅ Removed legacy unique shortCode index from services collection');
+    }
+  } catch (error) {
+    console.warn('⚠️ Could not inspect service indexes:', error);
+  }
+};
+
 const connectDB = async () => {
   try {
     const mongoUri = process.env.MONGODB_URL || process.env.MONGODB_URI || 'mongodb://localhost:27017/meeraxu';
@@ -31,6 +50,8 @@ const connectDB = async () => {
       serverSelectionTimeoutMS: 10000,
     });
     console.log('✅ MongoDB connected successfully');
+
+    await removeLegacyServiceShortCodeIndex();
 
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@meeraxu.com';
     const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';

@@ -391,11 +391,11 @@ export function Footer() {
       links: [
         { label: "Home", path: "/" },
         { label: "About Us", path: "/about" },
-        { label: "Contact", path: "/contact" },
+        { label: "Support", path: "/contact" },
       ],
     },
     {
-      heading: "Contact",
+      heading: "Support",
       links: [
         {
           label: "admin@meeraxuintelligence.com",
@@ -439,10 +439,10 @@ export function Footer() {
           <div>
             <div className="mb-4 flex items-center gap-2.5">
               <KineticLogo size={40} />
-              <span className="font-display text-lg font-extrabold tracking-wider text-white">
+              <span className="flex flex-col font-display text-lg font-extrabold leading-none tracking-wider text-white">
                 MEERAXU
-                <span className="text-base font-semibold tracking-widest text-[#A855F7]">
-                  \
+                <span className="mt-1 font-mono text-[0.65rem] font-semibold leading-none tracking-widest text-[#C4B5FD]">
+                  INTELLIGENCE
                 </span>
               </span>
             </div>
@@ -534,13 +534,13 @@ export function Footer() {
               fill="none"
               stroke="#A855F7"
               strokeWidth="1.6"
-              fontSize="95"
+              fontSize="72"
               fontWeight="500"
               letterSpacing="5"
               filter="url(#verySubtleGlow)"
               fontFamily="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
             >
-              <tspan fontSize="115" fontWeight="600" dy="6">
+              <tspan fontSize="86" fontWeight="600" dy="6">
                 M
               </tspan>
               <tspan dy="-6">eeraxu</tspan>

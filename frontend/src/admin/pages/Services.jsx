@@ -4,11 +4,12 @@ import { servicesAPI } from "../api/client";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const BASE_URL = API_BASE_URL.replace(/\/api\/?$/, "");
 
 const getIconUrl = (icon) => {
   if (!icon) return null;
   if (icon.startsWith("http")) return icon;
-  if (icon.startsWith("/uploads")) return `${API_BASE_URL}${icon}`;
+  if (icon.startsWith("/uploads")) return `${BASE_URL}${icon}`;
   return null;
 };
 

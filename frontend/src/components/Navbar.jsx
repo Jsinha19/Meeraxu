@@ -106,13 +106,10 @@ const KineticLogoWithText = ({ isCollapsed = false }) => (
           : "max-w-[240px] translate-x-0 opacity-100"
       }`}
     >
-      <span className="flex items-center gap-1 font-display text-[0.95rem] font-extrabold tracking-wider text-[var(--white)]">
+      <span className="font-display text-[0.95rem] font-extrabold leading-none tracking-wider text-[var(--white)]">
         MEERAXU
-        <span className="text-base font-semibold leading-none tracking-widest text-[#A855F7]">
-          \
-        </span>
       </span>
-      <span className="-mt-0.5 font-mono text-[0.65rem] font-semibold tracking-widest text-[#C4B5FD]">
+      <span className="mt-1 font-mono text-[0.65rem] font-semibold leading-none tracking-widest text-[#C4B5FD]">
         INTELLIGENCE
       </span>
     </div>
@@ -174,7 +171,7 @@ export function Navbar() {
   const items = [
     { id: "home", label: "Home", path: "/", icon: HomeIcon },
     { id: "about", label: "About", path: "/about", icon: Info },
-    { id: "contact", label: "Contact", path: "/contact", icon: Mail },
+    { id: "contact", label: "Support", path: "/contact", icon: Mail },
   ];
 
   const activePage =
@@ -230,9 +227,14 @@ export function Navbar() {
           <div className="ml-auto hidden items-center gap-4 md:flex">
             <button
               onClick={() => navigate("/contact#contact-form")}
-              className="flex cursor-pointer items-center gap-2 rounded-lg border border-[#8B5CF6]/40 bg-gradient-to-br from-[#8B5CF6]/20 to-[#8B5CF6]/10 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-[var(--white)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(168,85,247,0.25),0_10px_24px_rgba(139,92,246,0.18)]"
+              className="group relative flex cursor-pointer items-center gap-2 overflow-hidden rounded-xl border border-[#A855F7]/60 bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#7C3AED] bg-[length:200%_100%] px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white shadow-[0_8px_22px_rgba(124,58,237,0.28)] transition-all duration-300 hover:-translate-y-1 hover:bg-[position:100%_0] hover:shadow-[0_12px_30px_rgba(168,85,247,0.42)]"
             >
-              Book a call
+              <span className="absolute inset-0 -translate-x-full bg-white/20 transition-transform duration-500 group-hover:translate-x-full" />
+              <span className="relative">Book a call</span>
+              <ArrowRight
+                size={14}
+                className="relative transition-transform duration-300 group-hover:translate-x-1"
+              />
             </button>
           </div>
 
@@ -304,10 +306,11 @@ export function Navbar() {
 
                 <button
                   onClick={() => navigate("/contact#contact-form")}
-                  className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-[var(--purple)] to-[var(--purple-dark)] p-3.5 text-sm font-bold text-white shadow-[0_10px_28px_rgba(139,92,246,0.3)]"
+                  className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl border border-[#A855F7]/50 bg-gradient-to-r from-[var(--purple)] to-[var(--purple-dark)] p-3.5 text-sm font-bold text-white shadow-[0_10px_28px_rgba(139,92,246,0.3)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(139,92,246,0.45)]"
                 >
-                  Book a call
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 text-white">
+                  <span className="absolute inset-0 -translate-x-full bg-white/15 transition-transform duration-500 group-hover:translate-x-full" />
+                  <span className="relative">Book a call</span>
+                  <div className="relative flex h-6 w-6 items-center justify-center rounded-full bg-white/20 text-white transition-transform duration-300 group-hover:translate-x-1">
                     <ArrowRight size={14} />
                   </div>
                 </button>
