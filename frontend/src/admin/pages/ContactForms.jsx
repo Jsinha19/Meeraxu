@@ -2,6 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { contactFormsAPI } from "../api/client";
 
+const getProjectType = (form) => {
+  if (form.project?.trim()) return form.project.trim();
+
+  const subjectMatch = form.subject?.match(/^\[([^\]]+)\]/);
+  return subjectMatch?.[1] || "Not specified";
+};
+
 const ContactForms = () => {
   const navigate = useNavigate();
   const [forms, setForms] = useState([]);
@@ -74,96 +81,103 @@ const ContactForms = () => {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 min-h-screen bg-slate-50 font-sans max-w-[1600px] mx-auto">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+    <div className="p-3 sm:p-4 lg:p-5 min-h-screen bg-slate-50 font-sans max-w-[1600px] mx-auto">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight m-0 mb-1">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight m-0 mb-1">
             Contact Submissions
           </h1>
-          <p className="text-slate-500 text-sm m-0">
+          <p className="text-slate-500 text-xs m-0">
             Manage and reply to inbound messages
           </p>
         </div>
       </div>
 
       {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl font-medium flex items-center gap-3 shadow-sm">
-          <span className="text-xl">⚠️</span>
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl font-medium flex items-center gap-3 shadow-sm text-sm">
+          <span className="text-lg">⚠️</span>
           {error}
         </div>
       )}
 
-      <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-3">
-        <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">
-          Filter by Status:
+      <div className="mb-3 flex flex-col sm:flex-row items-start sm:items-center gap-2">
+        <label className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.14em]">
+          Filter by status
         </label>
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
-          className="px-4 py-2 rounded-lg border border-slate-200 bg-white text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[150px] shadow-sm cursor-pointer"
+          className="px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 min-w-[140px] shadow-sm cursor-pointer transition-colors"
         >
-          <option value="all">All</option>
+          <option value="all">All submissions</option>
           <option value="new">New</option>
           <option value="read">Read</option>
           <option value="replied">Replied</option>
         </select>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
-        <div className="w-full lg:w-1/3 xl:w-1/4 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col h-[calc(100vh-250px)] min-h-[500px]">
-          <div className="p-4 sm:p-5 border-b border-slate-200 bg-slate-50/80 flex justify-between items-center">
-            <h2 className="text-base font-bold text-slate-900 m-0">
+      <div className="flex flex-col lg:flex-row gap-3 lg:items-start">
+        <div className="w-full lg:w-1/3 xl:w-1/4 bg-slate-100 rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col h-[calc(100vh-220px)] min-h-[420px]">
+          <div className="p-3 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
+            <h2 className="text-sm font-bold text-slate-800 m-0">
               Inbox ({filteredForms.length})
             </h2>
           </div>
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto bg-slate-100">
             {filteredForms.length === 0 ? (
               <div className="p-8 text-center text-slate-500">
                 <span className="text-4xl block mb-3 opacity-50">📭</span>
                 <p className="font-medium text-sm m-0">No submissions found</p>
               </div>
             ) : (
-              <div className="flex flex-col divide-y divide-slate-100">
+              <div className="flex flex-col divide-y divide-slate-200">
                 {filteredForms.map((form) => (
                   <button
                     type="button"
                     key={form._id}
-                    className={`text-left p-4 sm:p-5 w-full cursor-pointer transition-all hover:bg-slate-50 border-l-4 ${
+                    className={`text-left p-2.5 sm:p-3 w-full cursor-pointer transition-all duration-200 hover:bg-slate-50 ${
                       selectedForm?._id === form._id
-                        ? "bg-blue-50/50 border-l-blue-600 shadow-[inset_0_0_15px_rgba(0,0,0,0.02)]"
+                        ? "bg-white border-l-4 border-l-blue-600 shadow-[inset_0_0_0_1px_rgba(59,130,246,0.04)]"
                         : form.status === "new"
-                          ? "border-l-emerald-500 bg-emerald-50/30"
-                          : "border-l-transparent"
+                          ? "bg-emerald-50/30 border-l-4 border-l-emerald-500"
+                          : "border-l-4 border-l-transparent bg-slate-100"
                     }`}
                     onClick={() => setSelectedForm(form)}
                   >
-                    <div className="flex justify-between items-start mb-2 gap-2">
+                    <div className="flex justify-between items-start mb-1 gap-2">
                       <h3
-                        className={`text-sm m-0 truncate ${form.status === "new" ? "font-extrabold text-slate-900" : "font-bold text-slate-700"}`}
+                        className={`text-xs m-0 truncate ${
+                          selectedForm?._id === form._id
+                            ? "font-extrabold text-slate-900"
+                            : "font-bold text-slate-700"
+                        }`}
                       >
                         {form.name}
                       </h3>
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider shrink-0 border ${
+                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-[0.08em] shrink-0 border ${
                           form.status === "new"
                             ? "bg-emerald-100 text-emerald-700 border-emerald-200"
                             : form.status === "read"
                               ? "bg-blue-100 text-blue-700 border-blue-200"
-                              : "bg-slate-100 text-slate-600 border-slate-200"
+                              : "bg-slate-200 text-slate-700 border-slate-300"
                         }`}
                       >
                         {form.status}
                       </span>
                     </div>
-                    <p className="text-xs m-0 mb-2 truncate text-slate-500">
+                    <p className="text-[11px] m-0 mb-1.5 truncate text-slate-500">
                       {form.subject || "No subject"}
                     </p>
-                    <div className="flex justify-between items-center text-[11px] text-slate-400">
+                    <div className="flex justify-between items-center text-[11px] text-slate-500 gap-2">
                       <p className="m-0 truncate max-w-[120px]">{form.email}</p>
                       <p className="m-0 whitespace-nowrap">
                         {new Date(form.createdAt).toLocaleDateString(
                           undefined,
-                          { month: "short", day: "numeric" },
+                          {
+                            month: "short",
+                            day: "numeric",
+                          },
                         )}
                       </p>
                     </div>
@@ -176,26 +190,17 @@ const ContactForms = () => {
 
         <div className="w-full lg:w-2/3 xl:w-3/4">
           {selectedForm ? (
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 animate-[fadeIn_0.2s_ease-out]">
-              <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 mb-8 pb-6 border-b border-slate-100">
-                <div>
-                  <h2 className="text-2xl font-extrabold text-slate-900 m-0 mb-2">
-                    {selectedForm.subject || "No Subject"}
+            <div className="bg-slate-100 rounded-xl shadow-sm border border-slate-200 p-3 sm:p-4 animate-[fadeIn_0.2s_ease-out]">
+              <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-2 mb-3 pb-3 border-b border-slate-200">
+                <div className="space-y-2">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500 m-0">
+                    Contact request
+                  </p>
+                  <h2 className="text-xl font-extrabold text-slate-900 m-0 leading-tight">
+                    {selectedForm.subject || "No subject"}
                   </h2>
-                  <div className="flex items-center gap-3 text-sm text-slate-500">
-                    <span className="font-bold text-slate-800">
-                      {selectedForm.name}
-                    </span>
-                    <span className="text-slate-300">•</span>
-                    <a
-                      href={`mailto:${selectedForm.email}`}
-                      className="text-blue-600 hover:text-blue-800 hover:underline transition-colors font-medium"
-                    >
-                      {selectedForm.email}
-                    </a>
-                  </div>
                 </div>
-                <div className="text-xs font-medium text-slate-500 whitespace-nowrap bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+                <div className="text-xs font-medium text-slate-600 whitespace-nowrap bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
                   {new Date(selectedForm.createdAt).toLocaleString(undefined, {
                     weekday: "short",
                     year: "numeric",
@@ -207,34 +212,71 @@ const ContactForms = () => {
                 </div>
               </div>
 
-              <div className="bg-slate-50 rounded-xl p-5 sm:p-6 mb-8 text-sm leading-relaxed text-slate-700 border border-slate-200 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] min-h-[200px] whitespace-pre-wrap">
-                {selectedForm.message}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+                <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500 mb-1.5">
+                    Name
+                  </p>
+                  <p className="text-sm font-semibold text-slate-800 m-0">
+                    {selectedForm.name}
+                  </p>
+                </div>
+
+                <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500 mb-1.5">
+                    Email
+                  </p>
+                  <a
+                    href={`mailto:${selectedForm.email}`}
+                    className="block text-sm font-medium text-blue-700 hover:text-blue-800 hover:underline transition-colors break-all m-0"
+                  >
+                    {selectedForm.email}
+                  </a>
+                </div>
+
+                <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm md:col-span-2">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500 mb-1.5">
+                    Project type
+                  </p>
+                  <p className="text-sm font-semibold text-slate-800 m-0">
+                    {getProjectType(selectedForm)}
+                  </p>
+                </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 pt-6 border-t border-slate-100">
-                <div className="flex flex-col gap-2">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                    Update Status
+              <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500 mb-2">
+                  Message
+                </p>
+                <div className="text-sm leading-6 text-slate-700 whitespace-pre-wrap bg-slate-50 border border-slate-200 rounded-lg p-3 min-h-[150px]">
+                  {selectedForm.message || "No message provided."}
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-3 mt-3 border-t border-slate-200">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
+                    Update status
                   </label>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {["new", "read", "replied"].map((status) => (
                       <button
                         key={status}
                         type="button"
-                        className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                        className={`px-2.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-[0.05em] transition-all ${
                           selectedForm.status === status
                             ? status === "new"
                               ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
                               : status === "read"
                                 ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-                                : "bg-purple-600 text-white shadow-md shadow-purple-500/20"
-                            : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+                                : "bg-violet-600 text-white shadow-md shadow-violet-500/20"
+                            : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
                         }`}
                         onClick={() =>
                           handleStatusChange(selectedForm._id, status)
                         }
                       >
-                        {status.charAt(0).toUpperCase() + status.slice(1)}
+                        {status}
                       </button>
                     ))}
                   </div>
@@ -242,22 +284,22 @@ const ContactForms = () => {
 
                 {isSuperAdmin && (
                   <button
-                    className="px-4 py-2 rounded-lg text-xs font-bold bg-white text-red-600 border border-red-200 hover:bg-red-50 hover:border-red-300 transition-all flex items-center gap-2"
+                    className="px-2.5 py-1.5 rounded-lg text-[11px] font-bold bg-white text-red-600 border border-red-200 hover:bg-red-50 hover:border-red-300 transition-all flex items-center gap-2 shadow-sm"
                     onClick={() => handleDelete(selectedForm._id)}
                   >
-                    <span className="text-sm">🗑️</span> Delete Submission
+                    <span className="text-sm">🗑️</span> Delete submission
                   </button>
                 )}
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 h-full min-h-[500px] flex flex-col items-center justify-center p-8 text-center">
-              <div className="text-6xl mb-4 opacity-20">✉️</div>
+            <div className="bg-slate-100 rounded-2xl shadow-sm border border-slate-200 h-full min-h-[500px] flex flex-col items-center justify-center p-8 text-center">
+              <div className="text-6xl mb-4 opacity-25">✉️</div>
               <h3 className="text-xl font-bold text-slate-700 m-0 mb-2">
                 Select a submission
               </h3>
               <p className="text-slate-500 text-sm m-0">
-                Choose a contact form from the list to view its details
+                Choose a contact form from the list to review the full message.
               </p>
             </div>
           )}

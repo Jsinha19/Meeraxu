@@ -83,76 +83,6 @@ const CONTACT_FAQS = [
   },
 ];
 
-function ContactHero() {
-  return (
-    <section className="pt-[112px] px-6 pb-0 min-h-auto flex items-center relative overflow-hidden">
-      <motion.div
-        animate={{ x: [0, 30, -18, 0], y: [0, -26, 20, 0] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          position: "absolute",
-          top: -90,
-          left: -130,
-          width: 380,
-          height: 380,
-          borderRadius: "50%",
-          background: "rgba(139, 92, 246, 0.08)",
-          filter: "blur(48px)",
-          pointerEvents: "none",
-        }}
-      />
-      <motion.div
-        animate={{ x: [0, -24, 18, 0], y: [0, 30, -12, 0] }}
-        transition={{ duration: 17, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          position: "absolute",
-          right: -120,
-          bottom: -160,
-          width: 430,
-          height: 430,
-          borderRadius: "50%",
-          background: "rgba(14, 165, 233, 0.07)",
-          filter: "blur(56px)",
-          pointerEvents: "none",
-        }}
-      />
-
-      <div className="max-w-[1180px] mx-auto w-full relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-[20px]"
-        >
-          <span className="tag flex items-center w-fit">
-            <Sparkles size={12} className="mr-[6px]" /> Contact Meeraxu
-          </span>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.12, duration: 0.72 }}
-          className="text-[clamp(2.5rem,6vw,5.2rem)] leading-[1.07] tracking-[-0.03em] mb-[24px] max-w-[1100px] font-extrabold"
-        >
-          Get in <span className="gradient-text">Touch</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.26, duration: 0.64 }}
-          style={{ color: "var(--muted)" }}
-          className="leading-[1.8] max-w-[1000px] mb-[40px] text-[1.05rem]"
-        >
-          Have a question or ready to start your AI journey? We'd love to hear
-          from you.
-        </motion.p>
-      </div>
-    </section>
-  );
-}
-
 const PROJECT_TYPES = [
   "AI-Powered Analytics Platform",
   "Automation Workflow Engine",
@@ -227,6 +157,7 @@ function ContactSection() {
       await contactFormsAPI.submit({
         name: formData.name,
         email: formData.email,
+        project: formData.project,
         subject: formData.project
           ? `[${formData.project}] ${formData.subject || "No subject"}`
           : formData.subject || "No subject",
@@ -260,11 +191,42 @@ function ContactSection() {
   };
 
   return (
-    <section className="px-6 py-[36px] pb-6 bg-[rgba(139,92,246,0.04)]">
+    <section className="px-6 py-[42px] pb-6 bg-[#080b12]">
       <div className="max-w-[1080px] mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-[64px]"
+        >
+          <span className="tag flex items-center w-fit mb-[18px]">
+            <Sparkles size={12} className="mr-[6px]" /> Contact Meeraxu
+          </span>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.12, duration: 0.72 }}
+            className="text-[clamp(2.5rem,6vw,5.2rem)] leading-[1.07] tracking-[-0.03em] mb-[18px] max-w-[1100px] font-extrabold"
+          >
+            Get in <span className="gradient-text">Touch</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.26, duration: 0.64 }}
+            style={{ color: "var(--muted)" }}
+            className="leading-[1.8] max-w-[1000px] text-[1.05rem]"
+          >
+            Have a question or ready to start your AI journey? We'd love to hear
+            from you.
+          </motion.p>
+        </motion.div>
+
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(260px,0.85fr)_minmax(0,1.1fr)] gap-[20px] items-start">
           {/* Left Side Container */}
-          <div className="flex flex-col h-full pt-[52px]">
+          <div className="flex flex-col h-full pt-[12px]">
             <motion.div
               initial={{ opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -278,20 +240,14 @@ function ContactSection() {
                 className="w-full h-full object-cover block absolute inset-0"
               />
 
-              <div
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(4, 8, 14, 0.9) 0%, rgba(7, 10, 18, 0.74) 52%, rgba(7, 10, 18, 0.88) 100%)",
-                }}
-                className="absolute inset-0 z-[1]"
-              />
+              <div className="absolute inset-0 z-[1] bg-[rgba(2,5,12,0.82)]" />
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="relative z-[2] flex flex-col p-6 justify-between gap-[16px] h-full"
+                className="relative z-[2] flex flex-col p-6 justify-between gap-[16px] h-full -translate-y-2"
               >
                 <div>
                   <h3 className="max-w-[280px] translate-y-[18px] text-[2.4rem] font-extrabold leading-[1.05] text-white [text-shadow:0_2px_18px_rgba(0,0,0,0.8)]">
@@ -299,7 +255,7 @@ function ContactSection() {
                   </h3>
                 </div>
 
-                <div className="grid gap-[16px]">
+                <div className="grid gap-[14px] -translate-y-1">
                   {CONTACT_DETAILS.map((item) => {
                     const Icon = item.icon;
                     return (
@@ -383,7 +339,7 @@ function ContactSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.62, delay: 0.08 }}
-              className="flex flex-col border-none rounded-[24px] glass p-6 gap-[16px]"
+              className="flex flex-col border border-[rgba(139,92,246,0.12)] rounded-[24px] bg-[rgba(17,20,28,0.82)] p-6 gap-[16px] shadow-[0_10px_30px_rgba(0,0,0,0.18)]"
             >
               {successMessage && (
                 <motion.div
@@ -682,7 +638,6 @@ export function Contact() {
 
   return (
     <>
-      <ContactHero />
       <ContactSection />
       <ContactFAQ />
       <Footer />

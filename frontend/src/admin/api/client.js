@@ -188,9 +188,3 @@ export const contactFormsAPI = {
     });
   },
 };
-
-export const logoutAdmin = () => {
-  localStorage.removeItem("adminToken");
-  localStorage.removeItem("adminName");
-  localStorage.removeItem("adminRole");
-};

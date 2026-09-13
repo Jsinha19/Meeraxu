@@ -7,7 +7,7 @@ const router = Router();
 // Submit contact form (public)
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { name, email, subject, message } = req.body;
+    const { name, email, subject, project, message } = req.body;
 
     if (!name || !email || !subject || !message) {
       return res.status(400).json({ message: 'Missing required fields' });
@@ -17,6 +17,7 @@ router.post('/', async (req: Request, res: Response) => {
       name,
       email,
       subject,
+      project: project || '',
       message,
       status: 'new',
     });
