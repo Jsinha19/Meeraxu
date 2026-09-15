@@ -185,7 +185,7 @@ export function Navbar() {
     <div ref={navRef}>
       {/* Fixed Navbar */}
       <header
-        className={`fixed left-0 right-0 top-0 z-[9999] transition-all duration-350 ${
+        className={`startup-nav-reveal fixed left-0 right-0 top-0 z-[9999] transition-all duration-350 ${
           isScrolled
             ? "border-b border-[#8B5CF6]/20 bg-[#09090B]/80 shadow-[0_8px_24px_rgba(2,6,23,0.22)] backdrop-blur-xl saturate-120"
             : "border-b border-transparent bg-transparent"

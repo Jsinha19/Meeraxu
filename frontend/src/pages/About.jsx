@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  AtSign,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Mail,
+  Sparkles,
+} from "lucide-react";
 import { Footer } from "../components/Footer";
 import { projectsAPI } from "../api/client";
 
@@ -113,11 +121,11 @@ function StoryAndVision() {
   return (
     <section className="relative z-10 border-t border-[var(--border)] px-4 py-[76px] sm:px-6 sm:py-[112px] sm:pb-[128px]">
       <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-8 lg:grid-cols-[minmax(240px,0.72fr)_minmax(0,1fr)] lg:gap-[90px]">
-        <div className="static top-[120px] self-start lg:sticky">
+        <div className="static self-start lg:sticky lg:top-[120px] lg:h-fit">
           <div className="font-mono text-[0.72rem] font-medium tracking-[0.12em] text-[var(--purple)] uppercase">
             Who We Are
           </div>
-          <h2 className="mt-[18px] text-[2.7rem] leading-[1.04] tracking-tight sm:text-[clamp(2.4rem,5vw,4.6rem)]">
+          <h2 className="mt-[18px] text-[3.1rem] leading-[1.02] tracking-tight sm:text-[clamp(2.8rem,5.5vw,5.2rem)]">
             We build <span className="text-[var(--purple)]">practical</span> AI.
           </h2>
         </div>
@@ -158,6 +166,133 @@ function StoryAndVision() {
               — Our founding principle
             </div>
           </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TeamSection() {
+  const team = [
+    {
+      name: "Omar Mehri",
+      role: "Strategy & Direction",
+      detail:
+        "Turns ambitious ideas into focused roadmaps and measurable momentum.",
+      image:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=700&h=900&q=85",
+    },
+    {
+      name: "Layla Samuel",
+      role: "AI Engineering",
+      detail:
+        "Builds dependable AI systems that connect technical thinking with outcomes.",
+      image:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=700&h=900&q=85",
+    },
+    {
+      name: "Draper Timothy",
+      role: "Product & Experience",
+      detail:
+        "Shapes product experiences that make complex technology feel direct and human.",
+      image:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=700&h=900&q=85",
+    },
+  ];
+
+  return (
+    <section className="relative z-10 overflow-hidden border-y border-white/[0.06] bg-[#020507] px-4 py-[76px] sm:px-6 sm:py-[108px]">
+      <div className="mx-auto max-w-[1180px]">
+        <div className="mx-auto mb-12 max-w-[620px] text-center">
+          <span className="font-mono text-[0.7rem] font-medium tracking-[0.16em] text-[var(--purple)] uppercase">
+            The Team
+          </span>
+          <h2 className="mt-4 text-[clamp(2.2rem,5vw,4rem)] leading-[1.02] tracking-tight">
+            People behind the <span className="gradient-text">thinking.</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-[520px] text-[0.95rem] leading-[1.8] text-[var(--muted)]">
+            A focused team bringing strategy, engineering, and product craft
+            together.
+          </p>
+        </div>
+
+        <div className="mx-auto grid max-w-[980px] grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-8">
+          {team.map(({ name, role, detail, image }, index) => (
+            <motion.article
+              key={name}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.55, delay: index * 0.12 }}
+              className="group text-center"
+            >
+              <motion.div
+                animate={{
+                  y: [0, -8, 0],
+                  boxShadow: [
+                    "0 0 18px rgba(139, 92, 246, 0.16)",
+                    "0 0 32px rgba(139, 92, 246, 0.3)",
+                    "0 0 18px rgba(139, 92, 246, 0.16)",
+                  ],
+                }}
+                transition={{
+                  duration: 4.5,
+                  delay: index * 0.35,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="relative mx-auto h-[138px] w-[138px] rounded-full p-[2px] shadow-[0_0_22px_rgba(139,92,246,0.22)] sm:h-[156px] sm:w-[156px]"
+              >
+                <div className="absolute inset-0 rounded-full border border-[rgba(139,92,246,0.62)]" />
+                <div className="absolute -inset-px rounded-full border-t-[7px] border-t-[var(--purple)] shadow-[0_-2px_12px_rgba(139,92,246,0.55)]" />
+                <div className="absolute -inset-px rounded-full border-t-[2px] border-t-[var(--purple-light)] opacity-80" />
+                <div className="relative h-full w-full overflow-hidden rounded-full border-[4px] border-[#020507] bg-[var(--surface)] shadow-[inset_0_0_16px_rgba(2,5,7,0.85)]">
+                  <img
+                    src={image}
+                    alt={name}
+                    loading="lazy"
+                    className="h-full w-full object-cover object-top grayscale-[0.15] transition duration-700 group-hover:grayscale-0"
+                  />
+                </div>
+              </motion.div>
+              <h3 className="mt-5 text-[1.45rem] font-bold text-[var(--white)]">
+                {name}
+              </h3>
+              <p className="mt-1 font-mono text-[0.65rem] tracking-[0.12em] text-[#c4b5fd] uppercase">
+                {role}
+              </p>
+              <p className="mx-auto mt-4 max-w-[250px] text-[0.82rem] leading-[1.65] text-[var(--muted)]">
+                {detail}
+              </p>
+              <div className="mt-5 flex justify-center gap-3 text-white/45">
+                <a
+                  href="https://www.linkedin.com/in/meeraxu-intelligence-1b669641b/"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${name} on LinkedIn`}
+                  className="grid h-8 w-8 place-items-center rounded-full border border-white/10 transition-colors hover:border-[#c4b5fd] hover:text-[#c4b5fd]"
+                >
+                  <ExternalLink size={14} />
+                </a>
+                <a
+                  href="https://www.instagram.com/meeraxu.intelligence/"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${name} on Instagram`}
+                  className="grid h-8 w-8 place-items-center rounded-full border border-white/10 transition-colors hover:border-[#c4b5fd] hover:text-[#c4b5fd]"
+                >
+                  <AtSign size={14} />
+                </a>
+                <a
+                  href="mailto:admin@meeraxuintelligence.com"
+                  aria-label={`Email ${name}`}
+                  className="grid h-8 w-8 place-items-center rounded-full border border-white/10 transition-colors hover:border-[#c4b5fd] hover:text-[#c4b5fd]"
+                >
+                  <Mail size={14} />
+                </a>
+              </div>
+            </motion.article>
+          ))}
         </div>
       </div>
     </section>
@@ -328,7 +463,7 @@ function HomeCTA() {
   return (
     <section className="relative z-10 px-4 py-[76px] sm:px-6 sm:py-[112px]">
       <motion.div
-        className="glass relative mx-auto max-w-[900px] overflow-hidden rounded-[24px] px-5 py-[52px] text-center sm:px-10 sm:py-[72px]"
+        className="glass relative mx-auto max-w-[900px] overflow-hidden rounded-[24px] border-white/[0.08] bg-[#020507] px-5 py-[52px] text-center sm:px-10 sm:py-[72px]"
         initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -380,6 +515,7 @@ export default function Home() {
     <main className="bg-[var(--bg)] text-[var(--white)]">
       <Hero />
       <StoryAndVision />
+      <TeamSection />
       <HomeProjects projects={projects} loading={loading} />
       <HomeCTA />
       <Footer />

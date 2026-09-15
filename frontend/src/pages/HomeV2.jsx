@@ -61,6 +61,10 @@ function ActionButton({
             padding: "16px 36px",
             borderRadius: 14,
             fontWeight: 800,
+            width: 220,
+            height: 56,
+            justifyContent: "center",
+            boxSizing: "border-box",
             background:
               "linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%)",
             color: "white",
@@ -173,11 +177,12 @@ function TrustedByMarquee() {
 
   return (
     <section
+      className="home-hero-reveal"
       style={{
         padding: "40px 0 60px",
         borderTop: "1px solid var(--border)",
         borderBottom: "1px solid var(--border)",
-        background: "var(--bg)",
+        background: "#020507",
         position: "relative",
         overflow: "hidden",
       }}
@@ -289,14 +294,22 @@ function Hero() {
     <section
       style={{
         position: "relative",
-        minHeight: "100vh",
+        minHeight: "82vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "60px 24px 60px",
+        padding: "16px 24px 28px",
         overflow: "hidden",
       }}
     >
+      <div
+        className="home-hero__universe home-hero__universe--left"
+        aria-hidden="true"
+      />
+      <div
+        className="home-hero__universe home-hero__universe--right"
+        aria-hidden="true"
+      />
       <Blob
         style={{
           width: 500,
@@ -321,8 +334,8 @@ function Hero() {
         transition={{ duration: 5, repeat: Infinity }}
         style={{
           position: "absolute",
-          width: 320,
-          height: 320,
+          width: 280,
+          height: 280,
           borderRadius: "50%",
           border: "1px solid var(--purple-glow)",
           top: "50%",
@@ -336,8 +349,8 @@ function Hero() {
         transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
         style={{
           position: "absolute",
-          width: 520,
-          height: 520,
+          width: 440,
+          height: 440,
           borderRadius: "50%",
           border: "1px solid var(--border)",
           top: "50%",
@@ -448,6 +461,10 @@ function Hero() {
                 borderRadius: 14,
                 fontWeight: 800,
                 fontSize: "1rem",
+                width: 220,
+                height: 56,
+                justifyContent: "center",
+                boxSizing: "border-box",
                 border: "2px solid var(--purple)",
                 color: "var(--purple)",
                 display: "flex",
@@ -921,17 +938,9 @@ function Services({ services = [] }) {
         padding: "100px 24px",
         position: "relative",
         overflow: "hidden",
+        background: "#020507",
       }}
     >
-      <Blob
-        style={{
-          width: 520,
-          height: 520,
-          background: "rgba(139,92,246,0.06)",
-          top: -140,
-          left: -180,
-        }}
-      />
       <div style={{ maxWidth: 1320, margin: "0 auto" }}>
         {/* Header */}
         <div
