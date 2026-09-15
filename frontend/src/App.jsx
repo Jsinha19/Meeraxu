@@ -159,11 +159,25 @@ export default function App() {
   return (
     <BrowserRouter>
       <GlobalStyles />
-      <StartupLoader onComplete={handleIntroComplete} />
+      <AppRoutes
+        isIntroComplete={isIntroComplete}
+        onIntroComplete={handleIntroComplete}
+      />
+    </BrowserRouter>
+  );
+}
+
+function AppRoutes({ isIntroComplete, onIntroComplete }) {
+  const { pathname } = useLocation();
+  const isAdminRoute = pathname === "/admin" || pathname.startsWith("/admin/");
+
+  return (
+    <>
+      {!isAdminRoute && <StartupLoader onComplete={onIntroComplete} />}
       <ScrollToTop />
-      <div className="scan-line" />
-      {isIntroComplete && (
-        <div className="app-shell app-shell--ready">
+      {!isAdminRoute && <div className="scan-line" />}
+      {(isAdminRoute || isIntroComplete) && (
+        <div className={isAdminRoute ? "" : "app-shell app-shell--ready"}>
           <Routes>
             <Route
               path="/"
@@ -235,6 +249,6 @@ export default function App() {
           </Routes>
         </div>
       )}
-    </BrowserRouter>
+    </>
   );
 }
